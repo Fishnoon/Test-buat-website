@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEXUS PROTOCOL - Cyberpunk Top Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: #050508;
+            color: #00ffcc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+            overflow: hidden;
+        }
+
+        .terminal-container {
+            width: 100%;
+            max-width: 460px;
+            height: 85vh;
+            background: #0a0b10;
+            border: 2px solid #00ffcc;
+            border-radius: 16px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 0 25px rgba(0, 255, 204, 0.25);
+        }
+
+        .terminal-header {
+            background: #0f111a;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 2px solid #00ffcc;
+        }
+
+        .title {
+            font-weight: 700;
+            font-size: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(0, 255, 204, 0.6);
+        }
+
+        .system-status {
+            font-size: 11px;
+            color: #00ffcc;
+            background: rgba(0, 255, 204, 0.1);
+            padding: 4px 8px;
+            border-radius: 4px;
+            border: 1px solid #00ffcc;
+        }
+
+        .terminal-screen {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .log-row {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #a0aec0;
+        }
+
+        .log-row.system {
+            color: #00ffcc;
+        }
+
+        .log-row.user {
+            color: #ff007f;
+            text-align: right;
+            font-weight: bold;
+        }
+
+        /* Menu List Styling */
+        .menu-list {
+            border: 1px dashed #00ffcc;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 5px;
+            background: rgba(0, 255, 204, 0.02);
+        }
+
+        /* Kartu Struk Belanja Neon Pink */
+        .cyber-card {
+            background: #12131a;
+            border: 1px solid #ff007f;
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 10px;
+            box-shadow: 0 0 15px rgba(255, 0, 127, 0.3);
+            color: #e2e8f0;
+        }
+
+        .cyber-card-header {
+            color: #ff007f;
+            font-weight: 700;
+            font-size: 13px;
+            text-transform: uppercase;
+            border-bottom: 1px dashed #ff007f;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+        }
+
+        .cyber-data {
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .cyber-data span {
+            color: #00ffcc;
+            font-weight: bold;
+        }
+
+        .qr-placeholder {
+            width: 140px;
+            height: 140px;
+            background: #fff;
+            margin: 14px auto 0 auto;
+            border: 3px solid #ff007f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 11px;
+            color: #000;
+        }
+
+        .terminal-input-bar {
+            padding: 16px;
+            background: #0f111a;
+            border-top: 2px solid #00ffcc;
+            display: flex;
+            gap: 10px;
+        }
+
+        .t-input {
+            flex: 1;
+            background: #050508;
+            border: 1px solid #00ffcc;
+            padding: 12px;
+            border-radius: 6px;
+            color: #00ffcc;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .t-input::placeholder {
+            color: rgba(0, 255, 204, 0.4);
+        }
+
+        .t-btn {
+            background: #00ffcc;
+            color: #050508;
+            border: none;
+            padding: 0 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .t-btn:hover {
+            background: #ff007f;
+            color: #fff;
+            box-shadow: 0 0 10px #ff007f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal-container">
+        <div class="terminal-header">
+            <div class="title">▲ NEXUS PROTOCOL v3.0</div>
+            <div class="system-status">CORE: ONLINE</div>
+        </div>
+
+        <div class="terminal-screen" id="screen">
+            <div class="log-row system">[SYSTEM] Menginisialisasi sistem AI... Ready.</div>
+            <div class="log-row text" style="color:#e2e8f0;">
+                Halo! Silakan ketik pertanyaan atau langsung ketik pesanan kamu.<br><br>
+                Contoh tanya: <span style="color:#00ffcc;">"ada menu apa aja"</span><br>
+                Contoh order: <span style="color:#ff007f;">"ML 86 dm id 12345678"</span>
+            </div>
+        </div>
+
+        <div class="terminal-input-bar">
+            <input type="text" id="inputCmd" class="t-input" placeholder="Ketik pesan di sini..." autocomplete="off">
+            <button class="t-btn" id="btnSubmit">Kirim</button>
+        </div>
+    </div>
+
+    <script>
+        const screen = document.getElementById('screen');
+        const inputCmd = document.getElementById('inputCmd');
+        const btnSubmit = document.getElementById('btnSubmit');
+
+        function kirimPerintah() {
+            const cmd = inputCmd.value.trim();
+            if(!cmd) return;
+
+            const userLog = document.createElement('div');
+            userLog.className = 'log-row user';
+            userLog.innerText = `> ${cmd}`;
+            screen.appendChild(userLog);
+
+            inputCmd.value = '';
+            screen.scrollTop = screen.scrollHeight;
+
+            setTimeout(() => {
+                const lowerCmd = cmd.toLowerCase();
+                const responseRow = document.createElement('div');
+                responseRow.className = 'log-row system';
+
+                // Pengecekan 1: Jika user bertanya soal MENU atau DAFTAR HARGA
+                if (lowerCmd.includes('menu') || lowerCmd.includes('daftar') || lowerCmd.includes('list') || lowerCmd.includes('harga')) {
+                    responseRow.innerHTML = `
+                        [SYSTEM] Menampilkan database produk aktif:<br>
+                        <div class="menu-list">
+                            • <b>Mobile Legends:</b> 86 Dm (Rp19.900) | WDP (Rp2X.000)<br>
+                            • <b>Free Fire:</b> 140 Dm (Rp18.500)<br><br>
+                            <span style="color:#ff007f;">*Untuk order, langsung ketik nama game, jumlah, dan ID kamu.*</span>
+                        </div>
+                    `;
+                    screen.appendChild(responseRow);
+                } 
+                // Pengecekan 2: Jika user mengetik pesan biasa seperti halo/tes
+                else if (lowerCmd === 'halo' || lowerCmd === 'tes' || lowerCmd === 'p') {
+                    responseRow.innerHTML = `[SYSTEM] Halo! Ada yang bisa sistem kami bantu? Ketik "menu" untuk melihat daftar game.`;
+                    screen.appendChild(responseRow);
+                }
+                // Pengecekan 3: Jika terdeteksi memasukkan order game (ML/FF) beserta ID
+                else if (lowerCmd.includes('ml') || lowerCmd.includes('ff') || lowerCmd.includes('id') || lowerCmd.includes('diamond')) {
+                    responseRow.innerText = `[SYSTEM] String terdeteksi sebagai order. Memproses ID... Pembuatan QRIS sukses.`;
+                    screen.appendChild(responseRow);
+
+                    // Tampilkan QRIS
+                    const card = document.createElement('div');
+                    card.className = 'cyber-card';
+                    
+                    let isFf = lowerCmd.includes('ff');
+                    let namaGame = isFf ? "FREE FIRE" : "MOBILE LEGENDS";
+                    let nickname = isFf ? "CyborgHunter" : "AlphaVektor_X";
+                    let harga = isFf ? "Rp18.500" : "Rp19.900";
+                    let nominal = isFf ? "140 Diamonds" : "86 Diamonds";
+
+                    card.innerHTML = `
+                        <div class="cyber-card-header">DATA TRANSAKSI BERHASIL</div>
+                        <div class="cyber-data">GAME: <span>${namaGame}</span></div>
+                        <div class="cyber-data">NICKNAME: <span>${nickname}</span></div>
+                        <div class="cyber-data">NOMINAL: <span>${nominal}</span></div>
+                        <div class="cyber-data">TOTAL HARGA: <span style="color:#ff007f;">${harga}</span></div>
+                        <div class="qr-placeholder">[ SCAN QRIS DI SINI ]</div>
+                    `;
+                    screen.appendChild(card);
+                } 
+                // Pengecekan 4: Jika ketikan tidak dikenali sistem
+                else {
+                    responseRow.innerHTML = `[SYSTEM] Perintah tidak dikenali. Ketik <span style="color:#00ffcc;">"menu"</span> atau format order seperti <span style="color:#ff007f;">"ML 86 dm id 12345"</span>.`;
+                    screen.appendChild(responseRow);
+                }
+                
+                screen.scrollTop = screen.scrollHeight;
+            }, 600);
+        }
+
+        btnSubmit.addEventListener('click', kirimPerintah);
+        inputCmd.addEventListener('keypress', (e) => {
+            if(e.key === 'Enter') kirimPerintah();
+        });
+    </script>
+</body>
+</html>
