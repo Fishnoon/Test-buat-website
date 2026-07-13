@@ -112,15 +112,17 @@
             }
 
             if (orderData.status === "pilih_metode") {
+                let kataBayar = (lang === 'id' ? "sudah pembayaran" : "payment made");
+                
                 if (input.includes('e-wallet') || input.includes('wallet')) {
-                    buatBubble(lang === 'id' ? "Silakan transfer ke nomor E-Wallet Admin (DANA/OVO/GOPAY): **" + generateNomor("08") + "**\n\nJika sudah transfer, ketik **payment made** ya lek!" : "Please transfer to the Admin E-Wallet number (DANA/OVO/GOPAY): **" + generateNomor("08") + "**\n\nIf you have transferred, type **payment made**:", false);
+                    buatBubble(lang === 'id' ? "Silakan transfer ke nomor E-Wallet Admin (DANA/OVO/GOPAY): **" + generateNomor("08") + "**\n\nJika sudah transfer, ketik **" + kataBayar + "** ya lek!" : "Please transfer to the Admin E-Wallet number (DANA/OVO/GOPAY): **" + generateNomor("08") + "**\n\nIf you have transferred, type **" + kataBayar + "**:", false);
                     orderData.status = "konfirmasi";
                 } else if (input.includes('bank') || input.includes('transfer')) {
-                    buatBubble(lang === 'id' ? "Silakan transfer ke nomor Rekening Bank Admin (BCA/Mandiri/BRI): **" + generateNomor("12") + "**\n\nJika sudah transfer, ketik **payment made** ya lek!" : "Please transfer to the Admin Bank Account (BCA/Mandiri/BRI): **" + generateNomor("12") + "**\n\nIf you have transferred, type **payment made**:", false);
+                    buatBubble(lang === 'id' ? "Silakan transfer ke nomor Rekening Bank Admin (BCA/Mandiri/BRI): **" + generateNomor("12") + "**\n\nJika sudah transfer, ketik **" + kataBayar + "** ya lek!" : "Please transfer to the Admin Bank Account (BCA/Mandiri/BRI): **" + generateNomor("12") + "**\n\nIf you have transferred, type **" + kataBayar + "**:", false);
                     orderData.status = "konfirmasi";
                 } else if (input.includes('qris') || input.includes('qr')) {
                     let img = "<br><img src='qrcode_373125598_ac3558ad6cc983de7f62918832b4b424.png' style='width:150px; height:150px; border:4px solid #fff; border-radius:8px;'><br>";
-                    buatBubble(lang === 'id' ? "Scan QRIS Admin berikut untuk pembayaran:" + img + "Jika sudah transfer, ketik **payment made** ya lek!" : "Scan the following QRIS for payment:" + img + "If you have transferred, type **payment made**:", false);
+                    buatBubble(lang === 'id' ? "Scan QRIS Admin berikut untuk pembayaran:" + img + "Jika sudah transfer, ketik **" + kataBayar + "** ya lek!" : "Scan the following QRIS for payment:" + img + "If you have transferred, type **" + kataBayar + "**:", false);
                     orderData.status = "konfirmasi";
                 } else {
                     buatBubble(lang === 'id' ? "Pilih metode yang benar lek:\n- E-Wallet\n- Transfer Bank\n- QRIS" : "Please choose the correct method:\n- E-Wallet\n- Transfer Bank\n- QRIS", false);
