@@ -26,7 +26,6 @@
         input { flex: 1; background: rgba(255, 0, 50, 0.05); border: 1px solid #ff3344; color: #ff3344; padding: 10px; outline: none; }
         button { background: transparent; border: 1px solid #ff3344; color: #ff3344; padding: 0 20px; cursor: pointer; font-weight: bold; }
         button:hover { background: #ff3344; color: white; }
-        .qr { width: 100%; max-width: 200px; margin: 10px 0; border: 4px solid #fff; border-radius: 8px; }
     </style>
 </head>
 <body>
@@ -120,7 +119,8 @@
                     buatBubble(lang === 'id' ? "Silakan transfer ke nomor Rekening Bank Admin (BCA/Mandiri/BRI): **" + generateNomor("12") + "**\n\nJika sudah transfer, ketik **payment made** ya lek!" : "Please transfer to the Admin Bank Account (BCA/Mandiri/BRI): **" + generateNomor("12") + "**\n\nIf you have transferred, type **payment made**:", false);
                     orderData.status = "konfirmasi";
                 } else if (input.includes('qris') || input.includes('qr')) {
-                    buatBubble(lang === 'id' ? "Scan QRIS Admin berikut untuk pembayaran:<br><img src='qrcode_373125598_ac3558ad6cc983de7f62918832b4b424.png' class='qr'><br>Jika sudah transfer, ketik **payment made** ya lek!<br><br><small>Kalau di dalam file index.html kamu kodenya memanggil <img src='qrcode_373125598_ac3558ad6cc983de7f62918832b4b424.png' ...>, maka pastikan nama file gambarnya harus benar-benar qrcode_373125598_ac3558ad6cc983de7f62918832b4b424.png (perhatikan huruf besar/kecilnya).<br>Tunggu sebentar: Setelah di-upload, biasanya butuh waktu sekitar 1-2 menit agar GitHub Pages memperbarui website kamu.</small>" : "Scan the following QRIS for payment:<br><img src='qrcode_373125598_ac3558ad6cc983de7f62918832b4b424.png' class='qr'><br>If you have transferred, type **payment made**:<br><br><small>If your index.html file calls <img src='qrcode_373125598_ac3558ad6cc983de7f62918832b4b424.png' ...>, make sure the image filename is exactly qrcode_373125598_ac3558ad6cc983de7f62918832b4b424.png (check case sensitivity).<br>Wait a moment: After uploading, it usually takes about 1-2 minutes for GitHub Pages to update your website.</small>", false);
+                    let img = "<br><img src='qrcode_373125598_ac3558ad6cc983de7f62918832b4b424.png' style='width:150px; height:150px; border:4px solid #fff; border-radius:8px;'><br>";
+                    buatBubble(lang === 'id' ? "Scan QRIS Admin berikut untuk pembayaran:" + img + "Jika sudah transfer, ketik **payment made** ya lek!" : "Scan the following QRIS for payment:" + img + "If you have transferred, type **payment made**:", false);
                     orderData.status = "konfirmasi";
                 } else {
                     buatBubble(lang === 'id' ? "Pilih metode yang benar lek:\n- E-Wallet\n- Transfer Bank\n- QRIS" : "Please choose the correct method:\n- E-Wallet\n- Transfer Bank\n- QRIS", false);
