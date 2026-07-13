@@ -7,59 +7,66 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Space Grotesk', sans-serif; }
-        /* Perbaikan: Hapus overflow hidden agar keyboard bisa muncul */
-        body { background-color: #0c0204; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .chat-container { width: 100vw; height: 100vh; background: linear-gradient(180deg, #16060a 0%, #080203 100%); display: flex; flex-direction: column; position: relative; }
+        html, body { height: 100%; overflow: hidden; background-color: #0c0204; }
+        .chat-container { width: 100%; height: 100%; display: flex; flex-direction: column; background: linear-gradient(180deg, #16060a 0%, #080203 100%); }
         
-        .status-bar { display: flex; justify-content: space-between; align-items: center; background: #0c0204; padding: 10px 15px; font-size: 12px; color: #ff3344; border-bottom: 1px solid rgba(90, 20, 26, 0.5); font-weight: bold; }
+        .status-bar { display: flex; justify-content: space-between; align-items: center; background: #0c0204; padding: 8px 15px; font-size: 11px; color: #ff3344; border-bottom: 1px solid rgba(90, 20, 26, 0.5); font-weight: bold; flex-shrink: 0; }
         .status-right { display: flex; align-items: center; gap: 8px; }
         
-        .chat-header { padding: 15px; border-bottom: 2px solid #5a141a; background: #110407; color: #ff3344; text-align: center; font-weight: bold; font-size: 18px; letter-spacing: 1px; text-transform: uppercase; display: flex; justify-content: center; align-items: center; gap: 8px; }
-        .lang-btn { cursor: pointer; padding: 2px 6px; font-size: 10px; border: 1px solid #ff3344; background: transparent; color: #ff3344; border-radius: 3px; }
+        /* Header Dirapikan */
+        .chat-header { padding: 12px 15px; border-bottom: 2px solid #5a141a; background: #110407; color: #ff3344; display: flex; justify-content: space-between; align-items: center; flex-shrink: 0; }
+        .header-title { font-weight: bold; font-size: 16px; letter-spacing: 1px; display: flex; align-items: center; gap: 8px; }
+        .lang-group { display: flex; gap: 5px; }
+        .lang-btn { cursor: pointer; padding: 2px 8px; font-size: 10px; border: 1px solid #ff3344; background: transparent; color: #ff3344; border-radius: 4px; }
         .lang-btn.active { background: #ff3344; color: white; }
 
         .chat-body { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
-        .msg { padding: 12px 16px; max-width: 85%; font-size: 15px; line-height: 1.4; white-space: pre-line; }
+        .msg {padding:10px 14px;max-width:94%;width:fit-content;font-size:14px;line-height:1.45;white-space:pre-line;border-radius:16px;box-shadow:0 2px 8px rgba(0,0,0,.25);animation:fade .25s ease;}
+        @keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
         .bot { align-self: flex-start; background: rgba(45, 35, 10, 0.6); border: 1px solid #ffcc33; color: #ffcc33; }
         .user { align-self: flex-end; background: rgba(0, 40, 50, 0.6); border: 1px solid #00ffff; color: #00ffff; }
-        
-        .chat-input { display: flex; padding: 15px; background: #110407; border-top: 2px solid #5a141a; gap: 10px; }
-        input { flex: 1; background: rgba(255, 0, 50, 0.05); border: 1px solid #ff3344; color: #ff3344; padding: 10px; outline: none; }
+        .chat-input { display: flex; padding: 15px; background: #110407; border-top: 2px solid #5a141a; gap: 10px; flex-shrink: 0; }
+        input {flex:1;background:rgba(255,0,50,.05);border:1px solid #ff3344;color:#ff3344;padding:10px 14px;outline:none;border-radius:24px;}
         button { background: transparent; border: 1px solid #ff3344; color: #ff3344; padding: 0 20px; cursor: pointer; font-weight: bold; }
         button:hover { background: #ff3344; color: white; }
     </style>
 </head>
 <body>
 
-<div class="chat-container">
+<div class="chat-container" id="appContainer">
     <div class="status-bar">
         <div id="statusTime">00:00</div>
-        <div class="status-right">
-            <span>📶</span> 
-            <span>🔋</span> 
-            <span id="batteryStatus">Detecting...</span>
-        </div>
+        <div class="status-right"><span>📶</span> <span>🔋</span> <span id="batteryStatus">Detecting...</span></div>
     </div>
     <div class="chat-header">
-        NEXUS CORP
-        <button class="lang-btn active" onclick="changeLang('id', this)">ID</button>
-        <button class="lang-btn" onclick="changeLang('en', this)">EN</button>
+        <div class="header-title">NEXUS CORP <span style='font-size:9px;color:#63ff63'>●</span></div>
+        <div class="lang-group">
+            <button class="lang-btn active" onclick="changeLang('id', this)">ID</button>
+            <button class="lang-btn" onclick="changeLang('en', this)">EN</button>
+        </div>
     </div>
     <div class="chat-body" id="chatBody">
         <div class="msg bot" id="msgHalo">Halo lek! Ketik "menu" buat lihat daftar game & mulai order ya!</div>
     </div>
     <div class="chat-input">
         <input type="text" id="userInput" placeholder="Message..." autocomplete="off">
-        <button id="btnKirim">SEND</button>
+        <button id="btnKirim">➤</button>
     </div>
 </div>
 
 <script>
-    // Logika skrip tetap sama seperti sebelumnya...
+    const container = document.getElementById('appContainer');
     const chatBody = document.getElementById('chatBody');
     const userInput = document.getElementById('userInput');
     let orderData = { status: "idle", produk: "", idUser: "" };
     let lang = 'id';
+
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', () => {
+            container.style.height = window.visualViewport.height + 'px';
+            chatBody.scrollTop = chatBody.scrollHeight;
+        });
+    }
 
     function changeLang(l, btn) {
         lang = l;
@@ -87,7 +94,7 @@
             updateBattery();
             battery.addEventListener('levelchange', updateBattery);
         });
-    } else { document.getElementById('batteryStatus').innerText = "100%"; }
+    }
 
     function buatBubble(text, isUser) {
         const div = document.createElement('div');
@@ -103,7 +110,13 @@
         buatBubble(text, true);
         userInput.value = '';
         
-        setTimeout(() => {
+        // Teks "Sedang mengetik" dinamis berdasarkan bahasa
+        const typingText = lang === 'id' ? '<i>NEXUS sedang mengetik...</i>' : '<i>NEXUS is typing...</i>';
+        buatBubble(typingText, false);
+        
+        const typing = chatBody.lastChild;
+        setTimeout(()=>{
+            typing.remove();
             const input = text.toLowerCase();
             
             if (input.includes('udah pembayaran') || input.includes('payment made') || (orderData.status === "konfirmasi" && (input.includes('bayar') || input.includes('paid')))) {
@@ -165,8 +178,9 @@
             } else {
                 buatBubble(lang === 'id' ? "Waduh lek, ketik **menu** buat lihat katalog game ya!" : "Oops, type **menu** to see the game catalog!", false);
             }
-        }, 500);
+        },800);
     };
+    userInput.focus();
 </script>
 </body>
 </html>
